@@ -57,8 +57,8 @@ std::unique_ptr<Toplevel> Client::create_toplevel(ToplevelOpt opt) {
   return Toplevel::init(this, opt);
 }
 
-std::unique_ptr<LayerShell> Client::create_layer_shell() {
-  return LayerShell::init(this);
+std::unique_ptr<LayerShell> Client::create_layer_shell(LayerShellOpt opt) {
+  return LayerShell::init(this, opt);
 }
 
 } // namespace wlfw

@@ -7,13 +7,14 @@
 
 namespace wlfw {
 
-std::unique_ptr<LayerShell> LayerShell::init(Client* client) {
+std::unique_ptr<LayerShell>
+LayerShell::init(Client* client, LayerShellOpt opt) {
   auto layer_shell = std::make_unique<LayerShell>();
-  layer_shell->_init(client);
+  layer_shell->_init(client, opt);
   return layer_shell;
 }
 
-void LayerShell::_init(Client* client) {
+void LayerShell::_init(Client* client, LayerShellOpt opt) {
   this->client = client;
   this->zwlr_layer_shell_ = client->get<zwlr_layer_shell_v1*>();
   assert(this->zwlr_layer_shell_);
@@ -21,8 +22,8 @@ void LayerShell::_init(Client* client) {
   this->zwlr_layer_surface_ = zwlr_layer_shell_v1_get_layer_surface(
     this->zwlr_layer_shell_,
     this->surface->wl_surface_,
-    nullptr,
-    ZWLR_LAYER_SHELL_V1_LAYER_TOP,
+    opt.output,
+    opt.layer,
     ""
   );
   assert(this->zwlr_layer_surface_);
@@ -50,6 +51,8 @@ void LayerShell::_init(Client* client) {
       },
     .closed =
       [](void* data, zwlr_layer_surface_v1* surface) {
+        auto layer_shell = static_cast<LayerShell*>(data);
+        layer_shell->on_close_();
         zwlr_layer_surface_v1_destroy(surface);
       },
   };
@@ -98,9 +101,19 @@ void LayerShell::set_exclusive_zone(int32_t zone) {
   zwlr_layer_surface_v1_set_exclusive_zone(this->zwlr_layer_surface_, zone);
 }
 
-LayerShell::~LayerShell() {
-  zwlr_layer_surface_v1_destroy(this->zwlr_layer_surface_);
-  wl_surface_destroy(this->surface->wl_surface_);
+void LayerShell::set_margin(
+  int32_t top,
+  int32_t right,
+  int32_t bottom,
+  int32_t left
+) {
+  zwlr_layer_surface_v1_set_margin(
+    this->zwlr_layer_surface_,
+    top,
+    right,
+    bottom,
+    left
+  );
 }
 
 } // namespace wlfw

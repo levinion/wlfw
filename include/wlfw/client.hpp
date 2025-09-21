@@ -19,7 +19,7 @@ class Client {
 public:
   bool dispatch();
   std::unique_ptr<Toplevel> create_toplevel(ToplevelOpt opt);
-  std::unique_ptr<LayerShell> create_layer_shell();
+  std::unique_ptr<LayerShell> create_layer_shell(LayerShellOpt opt);
   wl_output* current_output();
 
   template<typename T>

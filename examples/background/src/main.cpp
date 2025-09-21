@@ -14,7 +14,7 @@ int main() {
                   ->bind("zwlr_layer_shell_v1")
                   ->build();
 
-  auto layer_shell = client->create_layer_shell();
+  auto layer_shell = client->create_layer_shell({});
   layer_shell->set_keyboard_interactivity(false);
   layer_shell->set_size(1920, 1080);
   layer_shell->set_layer(ZWLR_LAYER_SHELL_V1_LAYER_BACKGROUND);
