@@ -4,11 +4,12 @@ build: init
 	cmake --build build -j
 
 init: CMakeLists.txt
-	mkdir -p build/protocols
-	wayland-scanner private-code /usr/share/wayland-protocols/stable/xdg-shell/xdg-shell.xml build/protocols/xdg-shell-protocol.c
-	wayland-scanner client-header /usr/share/wayland-protocols/stable/xdg-shell/xdg-shell.xml build/protocols/xdg-shell-client-protocol.h
-	wayland-scanner private-code ./protocols/wlr-layer-shell-unstable-v1.xml build/protocols/wlr-layer-shell-unstable-v1-protocol.c
-	wayland-scanner client-header ./protocols/wlr-layer-shell-unstable-v1.xml build/protocols/wlr-layer-shell-unstable-v1-protocol.h
+	mkdir -p protocols/src
+	mkdir -p protocols/include
+	wayland-scanner private-code /usr/share/wayland-protocols/stable/xdg-shell/xdg-shell.xml protocols/src/xdg-shell-protocol.c
+	wayland-scanner client-header /usr/share/wayland-protocols/stable/xdg-shell/xdg-shell.xml protocols/include/xdg-shell-client-protocol.h
+	wayland-scanner private-code ./protocols/wlr-layer-shell-unstable-v1.xml protocols/src/wlr-layer-shell-unstable-v1-protocol.c
+	wayland-scanner client-header ./protocols/wlr-layer-shell-unstable-v1.xml protocols/include/wlr-layer-shell-unstable-v1-protocol.h
 	cmake -B build -DCMAKE_BUILD_TYPE=$(BUILD_TYPE)
 
 clean:
