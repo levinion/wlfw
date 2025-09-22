@@ -103,7 +103,17 @@ void Seat::_init(Client* client) {
     .axis_stop =
       [](void* data, wl_pointer* wl_pointer, uint32_t time, uint32_t axis) {},
     .axis_discrete =
-      [](void* data, wl_pointer* wl_pointer, uint32_t axis, int32_t discrete) {}
+      [](void* data, wl_pointer* wl_pointer, uint32_t axis, int32_t discrete) {
+      },
+    .axis_value120 =
+      [](void* data, wl_pointer* wl_pointer, uint32_t axis, int32_t value120) {
+      },
+    .axis_relative_direction = [](
+                                 void* data,
+                                 wl_pointer* wl_pointer,
+                                 uint32_t axis,
+                                 uint32_t direction
+                               ) {},
   };
   wl_pointer_add_listener(this->wl_pointer_, &wl_pointer_listener_, this);
 
