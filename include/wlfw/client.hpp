@@ -21,6 +21,7 @@ public:
   std::unique_ptr<Toplevel> create_toplevel(ToplevelOpt opt);
   std::unique_ptr<LayerShell> create_layer_shell(LayerShellOpt opt);
   wl_output* current_output();
+  Dispatcher<1024>* get_dispatcher();
 
   template<typename T>
     requires std::is_pointer_v<T>

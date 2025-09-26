@@ -61,4 +61,8 @@ std::unique_ptr<LayerShell> Client::create_layer_shell(LayerShellOpt opt) {
   return LayerShell::init(this, opt);
 }
 
+Dispatcher<1024>* Client::get_dispatcher() {
+  return this->dispatcher.get();
+}
+
 } // namespace wlfw
